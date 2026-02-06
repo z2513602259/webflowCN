@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Webflow 翻译助手 - 设置</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="options-container">
+    <!-- 头部 -->
+    <header class="header">
+      <div class="header-content">
+        <img src="icons/icon48.png" alt="Logo" width="40" height="40">
+        <div>
+          <h1>WEBFLOW 翻译助手</h1>
+          <p class="subtitle">设置与词典管理</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- 主要内容 -->
+    <main class="main-content">
+      <!-- 标签页导航 -->
+      <nav class="tabs">
+        <button class="tab-btn active" data-tab="dictionary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+          </svg>
+          词典管理
+        </button>
+        <button class="tab-btn" data-tab="builtin">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+          内置词条
+        </button>
+        <button class="tab-btn" data-tab="settings">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          API 设置
+        </button>
+        <button class="tab-btn" data-tab="cache">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+          </svg>
+          缓存管理
+        </button>
+        <button class="tab-btn" data-tab="about">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 16v-4"></path>
+            <path d="M12 8h.01"></path>
+          </svg>
+          关于
+        </button>
+      </nav>
+
+      <!-- 词典管理 -->
+      <section id="dictionary" class="tab-content active">
+        <div class="card">
+          <h2>词典统计</h2>
+          <div class="stats-row">
+            <div class="stat-box">
+              <span class="stat-number" id="builtInCount">0</span>
+              <span class="stat-text">内置词条</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-number" id="customCount">0</span>
+              <span class="stat-text">自定义词条</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-number" id="totalCount">0</span>
+              <span class="stat-text">总词条数</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>添加词条</h2>
+          <form id="addEntryForm" class="form-row">
+            <input type="text" id="englishInput" placeholder="英文原文" required>
+            <input type="text" id="chineseInput" placeholder="中文翻译" required>
+            <button type="submit" class="btn btn-primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              添加
+            </button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h2>导入/导出词典</h2>
+          <div class="button-row">
+            <button id="exportDict" class="btn btn-secondary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              导出自定义词典
+            </button>
+            <button id="exportFullDict" class="btn btn-secondary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              导出完整词典
+            </button>
+            <label class="btn btn-secondary file-input-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              导入词典
+              <input type="file" id="importDict" accept=".json" hidden>
+            </label>
+          </div>
+          <div class="import-options">
+            <label class="checkbox-label">
+              <input type="checkbox" id="mergeImport" checked>
+              <span>合并导入（保留现有词条）</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>词条搜索</h2>
+          <div class="search-box">
+            <input type="text" id="searchInput" placeholder="搜索词条...">
+            <button id="searchBtn" class="btn btn-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </button>
+          </div>
+          <div id="searchResults" class="search-results"></div>
+        </div>
+
+        <div class="card danger-zone">
+          <h2>危险操作</h2>
+          <div class="button-row">
+            <button id="clearCustomDict" class="btn btn-danger">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+              清空自定义词典
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 内置词条管理 -->
+      <section id="builtin" class="tab-content">
+        <div class="card">
+          <h2>内置词条统计</h2>
+          <div class="stats-row">
+            <div class="stat-box">
+              <span class="stat-number" id="builtInTotalCount">0</span>
+              <span class="stat-text">总内置词条</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-number" id="overridesCount">0</span>
+              <span class="stat-text">已修改</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-number" id="disabledCount">0</span>
+              <span class="stat-text">已禁用</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>搜索内置词条</h2>
+          <div class="search-box">
+            <input type="text" id="builtInSearchInput" placeholder="搜索内置词条...">
+            <button id="builtInSearchBtn" class="btn btn-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </button>
+          </div>
+          <div class="filter-options">
+            <label class="checkbox-label">
+              <input type="checkbox" id="showModifiedOnly">
+              <span>只显示已修改</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="showDisabledOnly">
+              <span>只显示已禁用</span>
+            </label>
+          </div>
+          <div id="builtInSearchResults" class="search-results builtin-results"></div>
+        </div>
+
+        <div class="card danger-zone">
+          <h2>重置操作</h2>
+          <p class="warning-text">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:8px">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+              <line x1="12" y1="9" x2="12" y2="13"></line>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+            以下操作将重置所有对内置词条的修改，包括已修改的翻译和已禁用的词条。
+          </p>
+          <div class="button-row">
+            <button id="resetAllBuiltIn" class="btn btn-danger">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                <path d="M3 3v5h5"></path>
+              </svg>
+              重置所有内置词条修改
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- API 设置 -->
+      <section id="settings" class="tab-content">
+        <!-- API Key 未配置警告 -->
+        <div id="apiKeyWarning" class="card warning-card" style="display: none;">
+          <div class="warning-content">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+              <line x1="12" y1="9" x2="12" y2="13"></line>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+            <span>AI 翻译功能尚未配置。请在下方设置 API Key 以启用 AI 翻译。</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>AI 翻译设置</h2>
+          <form id="apiSettingsForm">
+            <div class="form-group">
+              <label for="apiUrl">API 地址</label>
+              <input type="url" id="apiUrl" placeholder="https://api.example.com/v1/chat/completions">
+              <span class="form-hint">支持 OpenAI 格式的 API 接口</span>
+            </div>
+            <div class="form-group">
+              <label for="apiKey">
+                API Key
+                <span class="required">*</span>
+              </label>
+              <div class="input-with-btn">
+                <input type="password" id="apiKey" placeholder="请输入您的 API Key" required>
+                <button type="button" id="toggleApiKey" class="btn btn-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+              <span class="form-hint">您的 API Key 将安全地保存在浏览器本地存储中</span>
+            </div>
+            <div class="form-group">
+              <label for="model">模型</label>
+              <input type="text" id="model" placeholder="例如: gemini-pro, gpt-3.5-turbo">
+            </div>
+            <div class="form-group">
+              <label for="maxRetries">最大重试次数</label>
+              <input type="number" id="maxRetries" min="0" max="10" value="3">
+            </div>
+            <div class="form-group">
+              <label for="translateDelay">翻译延迟 (毫秒)</label>
+              <input type="number" id="translateDelay" min="0" max="5000" value="100">
+            </div>
+            <div class="form-group">
+              <label for="batchSize">批量翻译大小</label>
+              <input type="number" id="batchSize" min="1" max="50" value="10">
+            </div>
+            <div class="button-row">
+              <button type="submit" class="btn btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                  <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                  <polyline points="7 3 7 8 15 8"></polyline>
+                </svg>
+                保存设置
+              </button>
+              <button type="button" id="testApi" class="btn btn-secondary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                </svg>
+                测试连接
+              </button>
+            </div>
+          </form>
+          <div id="apiTestResult" class="test-result"></div>
+        </div>
+      </section>
+
+      <!-- 缓存管理 -->
+      <section id="cache" class="tab-content">
+        <div class="card">
+          <h2>翻译缓存</h2>
+          <div class="stats-row">
+            <div class="stat-box">
+              <span class="stat-number" id="cacheCount">0</span>
+              <span class="stat-text">缓存条目</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-number" id="aiCacheCount">0</span>
+              <span class="stat-text">AI 翻译</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-number" id="dictCacheCount">0</span>
+              <span class="stat-text">词典翻译</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>缓存操作</h2>
+          <div class="button-row">
+            <button id="exportCache" class="btn btn-secondary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              导出缓存
+            </button>
+            <label class="btn btn-secondary file-input-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              导入缓存
+              <input type="file" id="importCache" accept=".json" hidden>
+            </label>
+            <button id="clearCache" class="btn btn-danger">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+              清空缓存
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 关于 -->
+      <section id="about" class="tab-content">
+        <div class="card">
+          <div class="about-section">
+            <img src="icons/icon128.png" alt="Logo" class="logo-large" width="80" height="80">
+            <h2>WEBFLOW 中文翻译助手</h2>
+            <p class="version">v1.0.0</p>
+            <p>将 Webflow 界面翻译为简体中文，提升中文用户的使用体验。</p>
+          </div>
+        </div>
+        
+        <div class="card">
+          <h2>功能特点</h2>
+          <div class="feature-list">
+            <div class="feature-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+              <span>内置丰富的 Webflow 专业术语词典</span>
+            </div>
+            <div class="feature-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+              <span>支持 AI 智能翻译未知词条</span>
+            </div>
+            <div class="feature-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+              <span>翻译结果自动缓存，加速后续翻译</span>
+            </div>
+            <div class="feature-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+              <span>支持自定义词典的导入导出</span>
+            </div>
+            <div class="feature-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+              <span>自动检测并翻译页面内容</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>使用说明</h2>
+          <div class="steps-list">
+            <div class="step-item">
+              <div class="step-number">1</div>
+              <span>打开 Webflow 网站</span>
+            </div>
+            <div class="step-item">
+              <div class="step-number">2</div>
+              <span>点击扩展图标启用翻译</span>
+            </div>
+            <div class="step-item">
+              <div class="step-number">3</div>
+              <span>页面将自动翻译为中文</span>
+            </div>
+            <div class="step-item">
+              <div class="step-number">4</div>
+              <span>可在此页面管理词典和设置</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

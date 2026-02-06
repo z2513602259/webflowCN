@@ -1,0 +1,507 @@
+/**
+ * Content Script Styles - Minimalist iOS Glassmorphism
+ * 内容脚本样式 - 简约 iOS 玻璃拟态风格
+ */
+
+/* CSS 变量 - iOS 风格配色 */
+:root {
+  /* iOS 系统色 */
+  --ios-blue: #007aff;
+  --ios-green: #34c759;
+  --ios-orange: #ff9500;
+  --ios-red: #ff3b30;
+  --ios-gray: #8e8e93;
+  --ios-light-gray: #c7c7cc;
+  
+  /* 文字色 */
+  --text-primary: #1d1d1f;
+  --text-secondary: #86868b;
+  --text-tertiary: #c7c7cc;
+  
+  /* 玻璃拟态背景 */
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-bg-dark: rgba(30, 30, 30, 0.72);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-border-light: rgba(255, 255, 255, 0.15);
+  
+  /* 阴影 - iOS 风格柔和阴影 */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 48px rgba(0, 0, 0, 0.12);
+  
+  /* 圆角 - iOS 风格 */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+}
+
+/* 已翻译的元素高亮 - 简约下划线 */
+.wf-translated {
+  position: relative;
+}
+
+.wf-translated::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--ios-blue);
+  opacity: 0.6;
+  pointer-events: none;
+  border-radius: 1px;
+}
+
+/* 翻译中的加载效果 - 简约 shimmer */
+.wf-translating {
+  opacity: 0.7;
+  position: relative;
+}
+
+.wf-translating::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 122, 255, 0.08),
+    transparent
+  );
+  animation: wf-shimmer 1.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes wf-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* 翻译失败的元素 */
+.wf-translation-failed {
+  position: relative;
+}
+
+.wf-translation-failed::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--ios-red);
+  opacity: 0.6;
+}
+
+/* 悬停提示样式 - iOS 玻璃拟态 */
+[data-original-text] {
+  cursor: help;
+}
+
+[data-original-text]:hover::before {
+  content: attr(data-original-text);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 16px;
+  background: var(--glass-bg-dark);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  white-space: nowrap;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border-light);
+  z-index: 10000;
+  pointer-events: none;
+  box-shadow: var(--shadow-lg);
+  animation: wf-tooltip-in 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+[data-original-text]:hover::after {
+  content: '';
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--glass-bg-dark);
+  z-index: 10001;
+  pointer-events: none;
+}
+
+@keyframes wf-tooltip-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* 翻译徽章 - 简约圆形 */
+.wf-translation-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin-left: 6px;
+  background: var(--ios-blue);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  cursor: help;
+  vertical-align: middle;
+  transition: transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.wf-translation-badge:hover {
+  transform: scale(1.15);
+}
+
+.wf-translation-badge.ai {
+  background: var(--ios-blue);
+}
+
+.wf-translation-badge.cache {
+  background: var(--ios-orange);
+}
+
+/* 翻译工具栏 - iOS 玻璃拟态 */
+.wf-translator-toolbar {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 99999;
+}
+
+.wf-translator-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  color: var(--ios-blue);
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.wf-translator-btn:hover {
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: var(--shadow-lg);
+}
+
+.wf-translator-btn:active {
+  transform: scale(0.95);
+}
+
+.wf-translator-btn.disabled {
+  background: rgba(240, 240, 240, 0.8);
+  color: var(--ios-light-gray);
+  cursor: not-allowed;
+  box-shadow: var(--shadow-sm);
+}
+
+.wf-translator-btn.disabled:hover {
+  transform: none;
+}
+
+/* 翻译状态指示器 - iOS 玻璃拟态 */
+.wf-translator-status {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px 20px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  z-index: 99999;
+  display: none;
+  align-items: center;
+  gap: 10px;
+  box-shadow: var(--shadow-lg);
+  animation: wf-status-in 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+@keyframes wf-status-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.wf-translator-status.visible {
+  display: flex;
+}
+
+.wf-translator-status .spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--ios-light-gray);
+  border-top-color: var(--ios-blue);
+  border-radius: 50%;
+  animation: wf-spin 0.8s linear infinite;
+}
+
+@keyframes wf-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* 翻译选择弹窗 - iOS 玻璃拟态 */
+.wf-translation-popup {
+  position: fixed;
+  padding: 16px 20px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  z-index: 99999;
+  max-width: 320px;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;
+  animation: wf-popup-in 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+@keyframes wf-popup-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.wf-translation-popup .original {
+  color: var(--text-secondary);
+  font-size: 12px;
+  margin-bottom: 6px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.wf-translation-popup .translation {
+  color: var(--text-primary);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.wf-translation-popup .source {
+  color: var(--text-secondary);
+  font-size: 11px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wf-translation-popup .source-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  font-size: 10px;
+  font-weight: 600;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.wf-translation-popup .source-badge.dictionary {
+  background: var(--ios-green);
+}
+
+.wf-translation-popup .source-badge.ai {
+  background: var(--ios-blue);
+}
+
+.wf-translation-popup .source-badge.cache {
+  background: var(--ios-orange);
+}
+
+/* 弹窗关闭按钮 */
+.wf-translation-popup .close-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.wf-translation-popup .close-btn:hover {
+  color: var(--text-primary);
+  background: rgba(0, 0, 0, 0.04);
+}
+
+/* 编辑翻译按钮 */
+.wf-translation-popup .edit-btn {
+  margin-top: 12px;
+  width: 100%;
+  padding: 10px 16px;
+  border: 1px solid var(--glass-border);
+  background: rgba(0, 122, 255, 0.08);
+  color: var(--ios-blue);
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.wf-translation-popup .edit-btn:hover {
+  background: rgba(0, 122, 255, 0.12);
+  border-color: rgba(0, 122, 255, 0.2);
+}
+
+/* 进度条 - iOS 风格 */
+.wf-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.04);
+  z-index: 99999;
+  overflow: hidden;
+}
+
+.wf-progress-bar .progress {
+  height: 100%;
+  background: var(--ios-blue);
+  transition: width 0.3s ease;
+}
+
+/* 成功/错误通知 - iOS 玻璃拟态 */
+.wf-notification {
+  position: fixed;
+  bottom: 100px;
+  right: 24px;
+  padding: 14px 20px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: wf-notification-in 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  box-shadow: var(--shadow-lg);
+}
+
+.wf-notification.success {
+  border-color: rgba(52, 199, 89, 0.3);
+  color: var(--ios-green);
+}
+
+.wf-notification.error {
+  border-color: rgba(255, 59, 48, 0.3);
+  color: var(--ios-red);
+}
+
+@keyframes wf-notification-in {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* 深色模式适配 - 保持 iOS 风格 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --glass-bg: rgba(30, 30, 30, 0.72);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --text-primary: #f5f5f7;
+    --text-secondary: #98989d;
+  }
+  
+  .wf-translation-popup .original {
+    color: var(--text-secondary);
+  }
+  
+  .wf-translation-popup .translation {
+    color: var(--text-primary);
+  }
+  
+  .wf-translation-popup .source {
+    color: var(--text-secondary);
+  }
+  
+  .wf-translator-status {
+    background: var(--glass-bg);
+    color: var(--text-primary);
+  }
+  
+  .wf-translator-btn {
+    background: var(--glass-bg);
+    color: var(--ios-blue);
+  }
+  
+  .wf-translator-btn:hover {
+    background: rgba(50, 50, 50, 0.8);
+  }
+}

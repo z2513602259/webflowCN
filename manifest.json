@@ -1,0 +1,45 @@
+{
+  "manifest_version": 3,
+  "name": "Webflow 中文翻译助手",
+  "version": "1.0.0",
+  "description": "将 Webflow 界面翻译为中文，支持内置词典和 AI 翻译",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://webflow.com/*",
+    "https://*.webflow.com/*",
+    "https://api.gemai.cc/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://webflow.com/*",
+        "https://*.webflow.com/*"
+      ],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_page": "options.html",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
