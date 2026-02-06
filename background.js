@@ -559,9 +559,9 @@ async function translateWithAI(text) {
     return { success: false, error: 'AI 翻译已禁用' };
   }
 
-  // 检查 API Key 是否已配置
+  // 检查 API Key 是否已配置，未配置则静默跳过 AI 翻译
   if (!settings.apiKey || settings.apiKey.trim() === '') {
-    return { success: false, error: '请先配置 API Key' };
+    return { success: false, error: 'API Key 未配置，跳过 AI 翻译' };
   }
 
   try {
@@ -615,9 +615,9 @@ async function translateBatchWithAI(texts) {
     return { success: false, error: 'AI 翻译已禁用或无文本' };
   }
 
-  // 检查 API Key 是否已配置
+  // 检查 API Key 是否已配置，未配置则静默跳过 AI 翻译
   if (!settings.apiKey || settings.apiKey.trim() === '') {
-    return { success: false, error: '请先配置 API Key' };
+    return { success: false, error: 'API Key 未配置，跳过 AI 翻译' };
   }
 
   try {

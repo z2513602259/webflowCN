@@ -143,25 +143,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  // 检查 API Key 配置状态
+  // 检查 API Key 配置状态（API Key 现为可选）
   function checkFirstTimeSetup(settings) {
     const apiKeyWarning = document.getElementById('apiKeyWarning');
 
-    if (!settings.apiKey) {
-      // 显示警告
-      if (apiKeyWarning) {
-        apiKeyWarning.style.display = 'block';
-      }
-      // 自动切换到设置标签页
-      const settingsTab = document.querySelector('[data-tab="settings"]');
-      if (settingsTab) {
-        settingsTab.click();
-      }
-    } else {
-      // 已配置 API Key，隐藏提示
-      if (apiKeyWarning) {
-        apiKeyWarning.style.display = 'none';
-      }
+    // API Key 已改为可选配置，始终隐藏警告
+    if (apiKeyWarning) {
+      apiKeyWarning.style.display = 'none';
     }
   }
 
