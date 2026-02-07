@@ -37,16 +37,20 @@
         isEnabled = settings.enabled;
       }
 
+      // 监听来自 popup 的消息
+      chrome.runtime.onMessage.addListener(handleMessage);
+
+      // 如果启用且设置了自动翻译，立即执行翻译
       if (isEnabled && settings.autoTranslate) {
-        // 延迟启动，等待页面加载完成
+        console.log('Webflow 翻译助手: 自动翻译已启用，开始翻译...');
+        // 短暂延迟确保 DOM 已准备好
         setTimeout(() => {
           translatePage();
           startObserver();
-        }, 1000);
+        }, 300);
+      } else {
+        console.log('Webflow 翻译助手已加载 (自动翻译未启用)');
       }
-
-      // 监听来自 popup 的消息
-      chrome.runtime.onMessage.addListener(handleMessage);
 
       console.log('Webflow 翻译助手已加载');
     } catch (error) {

@@ -41,6 +41,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // 检查 API Key 是否已配置
         checkApiKeyStatus(settings);
+
+        // 如果翻译已启用，同步状态到内容脚本（确保页面翻译状态一致）
+        if (settings.enabled) {
+          await syncTranslationState(true);
+        }
       }
 
       // 加载统计信息
@@ -52,6 +57,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     } catch (error) {
       console.error('初始化失败:', error);
       showToast('初始化失败', 'error');
+    }
+  }
+
+  // 同步翻译状态到内容脚本
+  async function syncTranslationState(enabled) {
+    try {
+      const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+      if (tab && tab.id && tab.url && tab.url.includes('webflow.com')) {
+        await chrome.tabs.sendMessage(tab.id, {
+          action: 'toggleTranslation',
+          enabled
+        });
+      }
+    } catch (error) {
+      // 内容脚本可能未注入，静默处理
+      console.log('同步翻译状态失败:', error);
     }
   }
 
